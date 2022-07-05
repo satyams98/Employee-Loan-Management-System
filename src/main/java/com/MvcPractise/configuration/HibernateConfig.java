@@ -17,7 +17,7 @@ import static org.hibernate.cfg.AvailableSettings.*;
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.brd.dao", "com.brd.service"})
+@ComponentScan(basePackages = {"com.MvcPractise.dao", "com.MvcPractise.service"})
 public class HibernateConfig {
     @Autowired
     private Environment environment;
@@ -43,7 +43,7 @@ public class HibernateConfig {
         properties.put(C3P0_MAX_STATEMENTS, environment.getProperty("hibernate.c3p0.max_statements"));
 
         factoryBean.setHibernateProperties(properties);
-        factoryBean.setPackagesToScan("com.brd.entity");
+        factoryBean.setPackagesToScan("com.MvcPractise.entity");
 
         return factoryBean;
 

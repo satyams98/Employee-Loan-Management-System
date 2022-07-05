@@ -11,5 +11,9 @@
 </head>
 <body>
 
+<form method="get" action="/add">
+<button type="submit">Submit</button>
+</form>
+<h1>Success</h1>
 </body>
 </html>

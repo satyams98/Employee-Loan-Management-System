@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src ="../../resources/form.js"></script>
+    
 </head>
 <body>
 
@@ -16,36 +16,36 @@
     <p>Try to submit the form.</p>
     <br>
 
-    <form action="/action_page.php" class=" row g-3 needs-validation" novalidate>
+    <form action="/action_page.php" class=" row g-3 needs-validation" novalidate modelAttribute="employee">
         <div class="row">
-        <div class="col-md-4">
-            <label for="fname" class="form-label">First name</label>
-            <input type="text" class="form-control" id="fname" value="" required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="col-md-4">
+                <label for="firstName" class="form-label">First name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <label for="lname" class="form-label">Last name</label>
-            <input type="text" class="form-control" id="lname" value="" required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="col-md-4">
+                <label for="lastName" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-        </div>
         </div>
         <div></div>
         <div class="row">
-        <div class="col-md-4">
-            <label for="dob" class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" id="dob"  required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="col-md-4">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob"  required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-        </div>
             <div class="col-md-4">
                 <label for="sex" class="form-label">Sex</label>
-                <select class="form-select" aria-label="Default select example" id ="sex">
-                    <option selected>Select..</option>
+                <select class="form-select" aria-label="Default select example" id ="sex" name="sex">
+                    <option selected value="0">Select..</option>
                     <option value="1">Male</option>
                     <option value="2">Female</option>
                     <option value="3">Other</option>
@@ -54,16 +54,16 @@
         </div>
         <div></div>
         <div class ="row">
-                <div class="col-md-4">
-                    <label for="religion" class="form-label">Religion</label>
-                    <input type="text" class="form-control" id="religion"  required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
+            <div class="col-md-4">
+                <label for="religion" class="form-label">Religion</label>
+                <input type="text" class="form-control" id="religion" name="religion" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="col-md-4">
-                <label for="proof" class="form-label">Id Proof</label>
-                <select class="form-select" aria-label="Default select example" id ="proof">
+                <label for="proofType" class="form-label">Id Proof</label>
+                <select class="form-select" aria-label="Default select example" id ="proofType" name="proofType">
                     <option value="0" selected>Select..</option>
                     <option value="1">Pan Card</option>
                     <option value="2">Adhaar Card</option>
@@ -91,15 +91,15 @@
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="currCountry" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="currCountry" required>
+                                    <label for="currentAdd.country" class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="currentAdd.country" name="currentAdd.country" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid city.
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="currZip" class="form-label">Zip</label>
-                                    <input type="text" class="form-control" id="currZip" required>
+                                    <label for="currentAdd.zip" class="form-label">Zip</label>
+                                    <input type="text" class="form-control" id="currentAdd.zip" name="currentAdd.zip" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid zip.
                                     </div>
@@ -108,8 +108,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label for="currState" class="form-label">State</label>
-                                    <select class="form-select" id="currState" required>
+                                    <label for="currentAdd.state" class="form-label">State</label>
+                                    <select class="form-select" id="currentAdd.state" name="currentAdd.state" required>
                                         <option selected disabled value="">Choose...</option>
                                         <option>...</option>
                                     </select>
@@ -118,8 +118,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="currCity" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="currCity" required>
+                                    <label for="currentAdd.city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="currentAdd.city" name="currentAdd.city" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid City.
                                     </div>
@@ -132,7 +132,7 @@
                 </div>
 
 
-        </div>
+            </div>
         </div>
 
         <div class = "row">
@@ -147,23 +147,23 @@
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                         <div class="accordion-body">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="same" onchange="addressFunction()">
+                                <input class="form-check-input" type="checkbox" id="same" onchange="addressFunction()">
                                 <label class="form-check-label" for="same">
-                                    Same as Temporary
+                                    Same as Current
                                 </label>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="permCountry" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="permCountry" required>
+                                    <label for="permanentAdd.country" class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="permanentAdd.country" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid city.
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="permZip" class="form-label">Zip</label>
-                                    <input type="text" class="form-control" id="permZip" required>
+                                    <label for="permanentAdd.zip" class="form-label">Zip</label>
+                                    <input type="text" class="form-control" id="permanentAdd.zip" name="permanentAdd.zip" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid zip.
                                     </div>
@@ -172,15 +172,15 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label for="permState" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="permState" required>
+                                    <label for="permanentAdd.state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="permanentAdd.state" name="permanentAdd.state" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid State.
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="permCity" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="permCity" required>
+                                    <label for="permanentAdd.city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="permanentAdd.city" name="permanentAdd.city" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid City.
                                     </div>
@@ -198,15 +198,15 @@
         <div></div>
         <div class="row">
             <div class="col-md-4">
-                <label for="validationCustom05" class="form-label">Contact No.</label>
-                <input type="text" class="form-control" id="validationCustom05" required>
+                <label for="mobileNo" class="form-label">Contact No.</label>
+                <input type="text" class="form-control" id="mobileNo" name="mobileNo" required>
                 <div class="invalid-feedback">
                     Please provide a valid Contact No..
                 </div>
             </div>
             <div class="col-4">
                 <label for="email" class="form-label">Email </label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
                 <div class="invalid-feedback">
                     Please enter a valid email address for shipping updates.
                 </div>
@@ -229,6 +229,7 @@
         </div>
     </form>
 </div>
+
 <script>
 
     (function () {
@@ -253,7 +254,7 @@
 
 
 
- $("#proof").click(function () {
+ $("#proofType").click(function () {
             newRowAdd =
              ' <div class="col-md-3" id ="rendered">'+
            ' <label for="proofText" class="form-label">Proof Id</label>'+
@@ -264,12 +265,12 @@
        ' </div>';
 
         var e = $(this).val();
-       
+
        if ((e=="1"|| e=='2'|| e=='3' ) && ($("#renderProof").has("#rendered").length==0)){
-        
-           
+
+
             $("#renderProof").append(newRowAdd);
-        
+
 
        }
        else if (e=="0"){
@@ -279,36 +280,36 @@
     });
 
     function addressFunction(){
-        
+
         if($("#same").is(':checked')){
 
-            $("#permCountry").val($("#currCountry").val());
-            $("#permZip").val($("#currZip").val());
-            $("#permState").val($("#currState").val());
-            $("#permCity").val($("#currCity").val());
+            $("#permanentAdd\\.country").val($("#currentAdd\\.country").val());
+            $("#permanentAdd\\.zip").val($("#currentAdd\\.zip").val());
+            $("#permanentAdd\\.state").val($("#currentAdd\\.state").val());
+            $("#permanentAdd\\.city").val($("#currentAdd\\.city").val());
 
         }
         else{
-            $("#permCountry").val("");
-            $("#permZip").val("");
-            $("#permState").val("");
-            $("#permCity").val("");
+            $("#permanentAdd\\.country").val("");
+            $("#permanentAdd\\.zip").val("");
+            $("#permanentAdd\\.state").val("");
+            $("#permanentAdd\\.city").val("");
         }
     }
 
-    function is_int(value){ 
+    function is_int(value){
   if ((parseFloat(value) == parseInt(value)) && !isNaN(value)) {
     return true;
-  } else { 
+  } else {
     return false;
-  } 
+  }
 }
 
 $("#currZip").keyup(function() {
   var el = $(this);
 
   if ((el.val().length == 6) && (is_int(el.val()))) {
-   
+
     $.ajax({
   url: "http://zip.elevenbasetwo.com",
   cache: false,
@@ -322,7 +323,7 @@ $("#currZip").keyup(function() {
     $("#currCity").val(result.city); /* Fill the data */
     $("#currState").val(result.state);
 
-    
+
 
   },
   error: function(result, success) {
@@ -332,7 +333,7 @@ $("#currZip").keyup(function() {
   }
 
 });
- 
+
   }
 
 });

@@ -12,11 +12,11 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.brd.controller"})
+@ComponentScan(basePackages = {"com.MvcPractise.controller"})
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("form");
+        registry.addViewController("/").setViewName("index");
     }
 
     @Bean
