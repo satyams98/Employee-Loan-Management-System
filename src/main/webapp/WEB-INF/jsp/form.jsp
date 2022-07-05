@@ -45,10 +45,10 @@
             <div class="col-md-4">
                 <label for="sex" class="form-label">Sex</label>
                 <select class="form-select" aria-label="Default select example" id ="sex" name="sex">
-                    <option selected value="0">Select..</option>
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                    <option value="3">Other</option>
+                    <option selected disabled value="0">Select..</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Not Specific">Other</option>
                 </select>
             </div>
         </div>
@@ -65,9 +65,9 @@
                 <label for="proofType" class="form-label">Id Proof</label>
                 <select class="form-select" aria-label="Default select example" id ="proofType" name="proofType">
                     <option value="0" selected>Select..</option>
-                    <option value="1">Pan Card</option>
-                    <option value="2">Adhaar Card</option>
-                    <option value="3">Other</option>
+                    <option value="pan">Pan Card</option>
+                    <option value="adhaar">Adhaar Card</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
         </div>
@@ -109,10 +109,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="currentAdd.state" class="form-label">State</label>
-                                    <select class="form-select" id="currentAdd.state" name="currentAdd.state" required>
-                                        <option selected disabled value="">Choose...</option>
-                                        <option>...</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="currentAdd.state" name="currentAdd.state" required>
                                     <div class="invalid-feedback">
                                         Please select a valid state.
                                     </div>
@@ -206,9 +203,9 @@
             </div>
             <div class="col-4">
                 <label for="email" class="form-label">Email </label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+                <input type="email" class="form-control" id="email" name="email" required>
                 <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
+                    Please enter a valid email address.
                 </div>
             </div>
         </div>
