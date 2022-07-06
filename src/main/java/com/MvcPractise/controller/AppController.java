@@ -19,12 +19,8 @@ public class AppController {
     @Autowired
     private EmpService empService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showHome(){
-        return "index";
-    }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showForm(Model model){
 
         Employee employee = new Employee();
@@ -42,19 +38,25 @@ public class AppController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String saveEmployee(Model model, @ModelAttribute("employee") Employee employee){
 
-
-
         empService.createEmployeeRecord(employee);
 
-        return "index";
+        return "form";
     }
 
     @RequestMapping(value="/get", method = RequestMethod.GET)
-    public String getEmployeeByMail(Model model, @RequestAttribute("email") String email){
+    public String showSearch(){
+
+        return "search";
+    }
+
+    @RequestMapping(value="/get", method = RequestMethod.POST)
+    public String getEmployeeByMail(Model model, @RequestAttribute("searchEmail") String email){
         Employee employee = empService.getEmployeeRecordUsingMail(email);
         model.addAttribute("employee", employee);
         return "search";
     }
+
+
 
 
 }

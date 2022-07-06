@@ -13,7 +13,7 @@
 
 <div class="container mt-3">
     <h3>Employee Registration</h3>
-    <p>Try to submit the form.</p>
+
     <br>
 
     <form action="/add" method="POST" class=" row g-3 needs-validation" novalidate modelAttribute="employee">
@@ -89,6 +89,17 @@
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
 
+                        <div class="row">
+                         <div class="col-md-7">
+                             <label for="currentAdd.street" class="form-label">Street</label>
+                             <input type="text" class="form-control" id="currentAdd.street" name="currentAdd.street" required>
+                             <div class="invalid-feedback">
+                                 Please provide a valid Street.
+                             </div>
+                         </div>
+                         </div>
+
+
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="currentAdd.country" class="form-label">Country</label>
@@ -150,6 +161,15 @@
                                 </label>
                             </div>
                             <br>
+                        <div class="row">
+                         <div class="col-md-7">
+                             <label for="permanentAdd.street" class="form-label">Street</label>
+                             <input type="text" class="form-control" id="permanentAdd.street" name="permanentAdd.street" required>
+                             <div class="invalid-feedback">
+                                 Please provide a valid Street.
+                             </div>
+                         </div>
+                        </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="permanentAdd.country" class="form-label">Country</label>
@@ -227,6 +247,18 @@
     </form>
 </div>
 
+<div class="container mt-3">
+<h3>Or</h3>
+<form action="/get" method="GET">
+ <div class="col-12">
+    <button class="btn btn-primary" type="submit">Search Employee</button>
+  </div>
+  </form
+</div>
+<div>
+<br>
+</div>
+
 <script>
 
     (function () {
@@ -263,7 +295,7 @@
 
         var e = $(this).val();
 
-       if ((e=="1"|| e=='2'|| e=='3' ) && ($("#renderProof").has("#rendered").length==0)){
+       if ((e=="pan"|| e=="adhaar"|| e=="other" ) && ($("#renderProof").has("#rendered").length==0)){
 
 
             $("#renderProof").append(newRowAdd);
@@ -334,9 +366,7 @@ $("#currZip").keyup(function() {
   }
 
 });
-$(document).ready(()=>{
-alert("hi");
-});
+
 
 </script>
 </body>

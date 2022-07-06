@@ -13,23 +13,22 @@
 
 </head>
 <body>
-
-<div class="container mt-3" >
+<div class="container mt-3" id ="empDetails">
     <h3>Employee Search</h3>
     <br>
     <br>
-    <form action="/get" method="POST">
+    <form>
         <div class="row">
             <div class="col-md-4">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required >
+            <input type="text" class="form-control" id="name" required >
         </div>
         </div>
         <div class="col-md-4">
         <div class="form-group">
             <label for="searchEmail">Email</label>
-            <input type="text" class="form-control" id="searchEmail" name ="searchEmail" required >
+            <input type="text" class="form-control" id="searchEmail" required >
         </div>
         </div>
 
@@ -39,10 +38,8 @@
         </div>
     </form>
 </div>
-<c:if test="${!empty employee}">
 
-
-<div class="container mt-3" id ="empDetails">
+<div class="container mt-3">
     <h3>Employee Details</h3>
     <br>
     <form action="/add" method="POST" class=" row g-3 needs-validation"  modelAttribute="employee">
@@ -204,9 +201,10 @@
 
         </div>
         <br>
-
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
     </form>
 </div>
-</c:if>
 </body>
 </html>
