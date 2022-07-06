@@ -1,3 +1,6 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +13,13 @@
 
 </head>
 <body>
+
+	<c:if test="${not empty msg}">
+    		<div class="alert alert-${css} alert-dismissible fade show" role="alert">
+              <strong>${msg}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    	</c:if>
 
 <div class="container mt-3">
     <h3>Employee Registration</h3>
@@ -65,9 +75,9 @@
                 <label for="proofType" class="form-label">Id Proof</label>
                 <select class="form-select" aria-label="Default select example" id ="proofType" name="proofType">
                     <option value="0" selected>Select..</option>
-                    <option value="pan">Pan Card</option>
-                    <option value="adhaar">Adhaar Card</option>
-                    <option value="other">Other</option>
+                    <option value="Pan Card">Pan Card</option>
+                    <option value="Adhar Card">Adhaar Card</option>
+                    <option value="Other">Other</option>
                 </select>
             </div>
         </div>
@@ -173,7 +183,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="permanentAdd.country" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="permanentAdd.country" required>
+                                    <input type="text" class="form-control" id="permanentAdd.country" name="permanentAdd.country" required>
                                     <div class="invalid-feedback">
                                         Please provide a valid city.
                                     </div>
@@ -286,8 +296,8 @@
  $("#proofType").click(function () {
             newRowAdd =
              ' <div class="col-md-3" id ="rendered">'+
-           ' <label for="proofText" class="form-label">Proof Id</label>'+
-           ' <input type="text" class="form-control" id="proofText" required>'+
+           ' <label for="proofId" class="form-label">Proof Id</label>'+
+           ' <input type="text" class="form-control" id="proofId" name="proofId" required>'+
            ' <div class="invalid-feedback">'+
                ' Please provide a valid Id.'+
            ' </div>'+
@@ -295,7 +305,7 @@
 
         var e = $(this).val();
 
-       if ((e=="pan"|| e=="adhaar"|| e=="other" ) && ($("#renderProof").has("#rendered").length==0)){
+       if ((e=="Pan Card"|| e=="Adhar Card"|| e=="Other" ) && ($("#renderProof").has("#rendered").length==0)){
 
 
             $("#renderProof").append(newRowAdd);
@@ -311,7 +321,7 @@
     function addressFunction(){
 
         if($("#same").is(':checked')){
-
+            $("#permanentAdd\\.street").val($("#currentAdd\\.street").val());
             $("#permanentAdd\\.country").val($("#currentAdd\\.country").val());
             $("#permanentAdd\\.zip").val($("#currentAdd\\.zip").val());
             $("#permanentAdd\\.state").val($("#currentAdd\\.state").val());
@@ -319,6 +329,7 @@
 
         }
         else{
+            $("#permanentAdd\\.street").val("");
             $("#permanentAdd\\.country").val("");
             $("#permanentAdd\\.zip").val("");
             $("#permanentAdd\\.state").val("");
