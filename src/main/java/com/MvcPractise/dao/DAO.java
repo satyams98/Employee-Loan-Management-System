@@ -10,4 +10,12 @@ public interface DAO {
 
 
 
+    public boolean isProofIdExists(String proofId);
+
+    public boolean isMailExists(String email);
+
+    public boolean isContactNoExists(String mobileNo);
+
+
+
 }

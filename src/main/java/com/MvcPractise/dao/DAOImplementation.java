@@ -19,6 +19,8 @@ public class DAOImplementation implements DAO{
     @Override
     public boolean saveEmployee(Employee employee) {
         sessionFactory.getCurrentSession().save(employee);
+        sessionFactory.getCurrentSession().flush();
+        sessionFactory.getCurrentSession().flush();
         return true;
     }
 
@@ -33,4 +35,46 @@ public class DAOImplementation implements DAO{
 
         return employee;
     }
+
+
+    @Override
+    public boolean isProofIdExists(String proofId) {
+        Session session =sessionFactory.openSession();
+        Query query =session.createQuery("FROM Employee e where e.proofId=:proofId", Employee.class);
+        query.setParameter("proofId", proofId);
+        session.getSession().beginTransaction();
+        Employee employee = (Employee) query.uniqueResult();
+        session.getTransaction().commit();
+
+        if(employee!=null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isMailExists(String email) {
+        Employee employee=getEmployeeUsingMail(email);
+        if (employee!=null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isContactNoExists(String mobileNo) {
+        Session session =sessionFactory.openSession();
+        Query query =session.createQuery("FROM Employee e where e.mobileNo=:mobileNo", Employee.class);
+        query.setParameter("mobileNo", mobileNo);
+        session.getSession().beginTransaction();
+        Employee employee = (Employee) query.uniqueResult();
+        session.getTransaction().commit();
+
+        if(employee!=null){
+            return true;
+        }
+        return false;
+    }
+
+
 }

@@ -3,7 +3,9 @@ package com.MvcPractise.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -59,7 +61,7 @@ public class Employee {
         this.proofId = proofId;
     }
 
-    private long mobileNo;
+    private String mobileNo;
     private String email;
 
     @Embedded
@@ -83,6 +85,17 @@ public class Employee {
 
     })
     private Address permanentAdd;
+
+    public List<Family> getFamilyList() {
+        return familyList;
+    }
+
+    public void setFamilyList(List<Family> familyList) {
+        this.familyList = familyList;
+    }
+
+    @ElementCollection
+    List<Family> familyList;
 
     public long getId() {
         return id;
@@ -108,11 +121,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public long getMobileNo() {
+    public String getMobileNo() {
         return mobileNo;
     }
 
-    public void setMobileNo(long mobileNo) {
+    public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
     }
 

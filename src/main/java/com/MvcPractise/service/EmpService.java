@@ -17,4 +17,15 @@ public class EmpService {
     public Employee getEmployeeRecordUsingMail(String email){
         return dao.getEmployeeUsingMail(email);
     }
+
+    public boolean isMailExists(String email){
+        return dao.isMailExists(email);
+    }
+    public boolean isContactNoExists(String mobileNo){
+        return dao.isContactNoExists(mobileNo);
+    }
+
+    public boolean isProofIdExists(String proofId){
+        return dao.isProofIdExists(proofId);
+    }
 }

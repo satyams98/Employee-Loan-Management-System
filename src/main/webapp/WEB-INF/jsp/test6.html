@@ -1,0 +1,46 @@
+<div class="row" style=" border:thin solid #d9d5d4; padding:2% ">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label for="firstName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name1" name="name1" value="" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="relation1" class="form-label">Relation</label>
+                            <select class="form-select" aria-label="Default select example" id ="relation1" name="relation1">
+                                <option selected disabled value="0">Select..</option>
+                                <option value="father">Father</option>
+                                <option value="mother">Mother</option>
+                                <option value="sister">Sister</option>
+                                <option value="brother">Brother</option>
+                                <option value="son">Son</option>
+                                <option value="daughter">Daughter</option>
+                                <option value="spouse">Spouse</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div><br></div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label for="mobileNo1" class="form-label">Contact No.</label>
+                            <input type="text" class="form-control" id="mobileNo1" name="mobileNo1" placeholder="Contact Info" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Contact No..
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="adhaar1" class="form-label">Adhaar No.</label>
+                            <input type="text" class="form-control" id="adhaar1" name="adhaar1" placeholder="Adhaar no." required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Adhaar No..
+                            </div>
+                        </div>
+                    </div>
+                    <div><br></div>
+                </div>
+
+ <c:forEach items="${employee.familyList}" var="family">
+   
+</c:forEach>
