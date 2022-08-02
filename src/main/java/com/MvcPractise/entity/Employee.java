@@ -1,16 +1,16 @@
 package com.MvcPractise.entity;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Employee {
+
     @Id
-    @GeneratedValue
+    private String email;
     private long id;
     private String firstName;
     private String lastName;
@@ -20,6 +20,57 @@ public class Employee {
     private String religion;
     private String proofType;
     private String proofId;
+    private String mobileNo;
+
+    private double monthlyIncome;
+    private double totalMonthlyExpenses;
+    private double maxEligibleLoanAmount;
+    private double maxEligibleEMI;
+    private double dbr;
+
+    @OneToMany(mappedBy = "employee")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE})
+    private List<LoanAgreement> loanAgreements=new ArrayList<>();
+
+    public double getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(double monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
+    }
+
+    public double getTotalMonthlyExpenses() {
+        return totalMonthlyExpenses;
+    }
+
+    public void setTotalMonthlyExpenses(double totalMonthlyExpenses) {
+        this.totalMonthlyExpenses = totalMonthlyExpenses;
+    }
+
+    public double getMaxEligibleLoanAmount() {
+        return maxEligibleLoanAmount;
+    }
+
+    public void setMaxEligibleLoanAmount(double maxEligibleLoanAmount) {
+        this.maxEligibleLoanAmount = maxEligibleLoanAmount;
+    }
+
+    public double getMaxEligibleEMI() {
+        return maxEligibleEMI;
+    }
+
+    public void setMaxEligibleEMI(double maxEligibleEMI) {
+        this.maxEligibleEMI = maxEligibleEMI;
+    }
+
+    public List<LoanAgreement> getLoanAgreements() {
+        return loanAgreements;
+    }
+
+    public void setLoanAgreements(List<LoanAgreement> loanAgreements) {
+        this.loanAgreements = loanAgreements;
+    }
 
     public Date getDob() {
         return dob;
@@ -61,8 +112,9 @@ public class Employee {
         this.proofId = proofId;
     }
 
-    private String mobileNo;
-    private String email;
+
+
+
 
     @Embedded
     @AttributeOverrides({
@@ -94,8 +146,9 @@ public class Employee {
         this.familyList = familyList;
     }
 
+    @Cascade({org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE})
     @ElementCollection
-    List<Family> familyList;
+    List<Family> familyList= new ArrayList<>();
 
     public long getId() {
         return id;
@@ -151,5 +204,13 @@ public class Employee {
 
     public void setPermanentAdd(Address permanentAdd) {
         this.permanentAdd = permanentAdd;
+    }
+
+    public double getDbr() {
+        return dbr;
+    }
+
+    public void setDbr(double dbr) {
+        this.dbr = dbr;
     }
 }

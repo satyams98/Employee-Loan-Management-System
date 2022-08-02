@@ -1,17 +1,29 @@
 package com.MvcPractise.controller;
 
-import com.MvcPractise.entity.Address;
-import com.MvcPractise.entity.Employee;
-import com.MvcPractise.entity.Family;
+import com.MvcPractise.dao.DAO;
+import com.MvcPractise.dao.DAOImplementation;
+import com.MvcPractise.entity.*;
 import com.MvcPractise.service.EmpService;
+import com.MvcPractise.service.LoanCalculations;
+import com.MvcPractise.service.LoanService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+import java.util.Date;
+
 
 
 @Controller
@@ -21,9 +33,25 @@ public class AppController {
     @Autowired
     private EmpService empService;
 
+    @Autowired
+    private LoanService loanService;
+
+    @Autowired
+    private DAO dao;
+
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String showHome(Model model){
         return "index";
+    }
+
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/";
     }
 
 
@@ -35,12 +63,6 @@ public class AppController {
         Address permanentAddress = new Address();
         employee.setCurrentAdd(currentAddress);
         employee.setPermanentAdd(permanentAddress);
-        List<Family>families = new ArrayList<>();
-        families.add(new Family());
-        families.add(new Family());
-        families.add(new Family());
-        families.add(new Family());
-        employee.setFamilyList(families);
 
         model.addAttribute("employee", employee);
 
@@ -53,59 +75,251 @@ public class AppController {
                                final RedirectAttributes redirectAttributes){
 
         if (empService.isProofIdExists(employee.getProofId())){
-            redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Record with given Proof Id Already Exists!");
-            return "redirect:/add";
+            model.addAttribute("css", "danger");
+            model.addAttribute("msg", "Record with given Proof Id Already Exists!");
+            model.addAttribute("head", "Alert!");
+
+            model.addAttribute("employee", employee);
+            return "form";
         }
         else if (empService.isMailExists(employee.getEmail())) {
 
-            redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Record with given Email Already Exists!");
-            return "redirect:/add";
+            model.addAttribute("css", "danger");
+            model.addAttribute("msg", "Record with given Email Already Exists!");
+            model.addAttribute("head", "Alert!");
+            model.addAttribute("employee", employee);
+            return "form";
         }
         else if(empService.isContactNoExists(employee.getMobileNo())){
-            redirectAttributes.addFlashAttribute("css", "danger");
-            redirectAttributes.addFlashAttribute("msg", "Record with given Mobile No. Already Exists!");
-            return "redirect:/add";
+            model.addAttribute("css", "danger");
+            model.addAttribute("msg", "Record with given Mobile No. Already Exists!");
+            model.addAttribute("head", "Alert!");
+            model.addAttribute("employee", employee);
+            return "form";
 
         }
         else {
             empService.createEmployeeRecord(employee);
             redirectAttributes.addFlashAttribute("css", "success");
             redirectAttributes.addFlashAttribute("msg", "Registered Successfully!");
-            Family f1 = employee.getFamilyList().get(0);
-            System.out.println(f1.getName()+f1.getAdhaarNo()+f1.getContactNo()+f1.getRelation());
-            System.out.println(employee.getDob());
+            redirectAttributes.addFlashAttribute("head", "Success!");
+
             return "redirect:/";
         }
 
     }
 
     @RequestMapping(value="/search", method = RequestMethod.GET)
-    public String showSearch(){
+    public String showSearch(Model model, @RequestParam("action")String action){
 
-        return "search";
+        model.addAttribute("action", action);
+
+        return "searchRecord";
     }
 
     @RequestMapping(value="/search", method = RequestMethod.POST)
-    public String getEmployeeByMail(Model model, @RequestParam("searchEmail") String email,
+    public String getEmployeeByMail(Model model, @RequestParam("email") String email,
+                                    @RequestParam("proofType") String proofType,
+                                    @RequestParam("proofId")String proofId,
+                                    @RequestParam("action") String action,
                                     final RedirectAttributes redirectAttributes){
-        Employee employee = empService.getEmployeeRecordUsingMail(email);
-        if(employee!=null) {
-            model.addAttribute("found","true");
-            model.addAttribute("employee", employee);
-            System.out.println("here in search:");
-            System.out.println(employee.getFamilyList().get(0).getName());
-            System.out.println(employee.getDob());
+        Employee employee;
+
+        if(!email.isEmpty()){
+            employee = empService.getEmployeeRecordUsingMail(email);
         }
         else{
-            model.addAttribute("found","false");
-            model.addAttribute("css", "warning");
-            model.addAttribute("msg", "No Such Records!");
+            employee = empService.getEmployeeById(proofType, proofId);
         }
-        return "search";
+        if(employee==null){
+            model.addAttribute("css", "warning");
+            model.addAttribute("msg", "No Such Record found!");
+            model.addAttribute("head", "Alert!");
+            return "searchRecord";
+        }
+        model.addAttribute("employee", employee);
+        model.addAttribute("css", "success");
+        model.addAttribute("msg", "Record found!");
+        model.addAttribute("head", "Success!");
+
+        if(action.equals("detail")){
+
+            return "detail";
+
+        }
+        else if(action.equals("update")){
+
+            return "update";
+        }
+
+        return "delete";
     }
 
+
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateEmployee(Model model, @ModelAttribute("employee") Employee employee,
+                                 final RedirectAttributes redirectAttributes ){
+
+
+            empService.updateEmployeeRecord(employee);
+            redirectAttributes.addFlashAttribute("css", "success");
+            redirectAttributes.addFlashAttribute("msg", "Employee Updated Successfully!");
+            redirectAttributes.addFlashAttribute("head", "Success!");
+
+            return "redirect:/";
+
+
+
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String showDelete(Model model){
+        return "delete";
+    }
+
+
+    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    public String deleteEmployee(Model model, @ModelAttribute("employee") Employee employee,
+                                 @RequestParam("email") String email,
+                                 final RedirectAttributes redirectAttributes){
+        System.out.println(employee==null);
+        empService.deleteEmployee(email);
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "Employee Deleted Successfully!");
+        redirectAttributes.addFlashAttribute("head", "Success!");
+
+        return "redirect:/";
+
+    }
+
+    @RequestMapping(value = "/loanReq", method = RequestMethod.GET)
+    public String showLoanRequest(Model model){
+        return "LoanReq";
+    }
+
+
+    @JsonView(Views.Public.class)
+    @ResponseBody
+    @RequestMapping(value = "/calculateEligibleAmount", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public AjaxResponseBody calculateEligibleAmount(@RequestBody LoanReqData loanReqData ){
+        AjaxResponseBody result = new AjaxResponseBody();
+        LoanCalculations loanCalculations = new LoanCalculations();
+        double eligibleEMI = loanCalculations.calculateMaxEligibleEMI(loanReqData.getMonthlyIncome(), loanReqData.getMonthlyExpense());
+        double maxEligibleLoanAmount=loanCalculations.calculateMaxEligibleLoanAmount(eligibleEMI, loanReqData.getRoi(), loanReqData.getTenure(), loanReqData.getRepayFrequency());
+        maxEligibleLoanAmount = Math.round(maxEligibleLoanAmount*100)/100;
+        result.setEligibleLoanAmount(maxEligibleLoanAmount);
+        return result;
+
+
+    }
+
+    @JsonView(Views.Public.class)
+    @ResponseBody
+    @RequestMapping(value = "/ajaxSearch", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public AjaxEmployeeSearchResponseBody ajaxEmployeeSearch(@RequestBody AjaxEmployeeSearch ajaxEmployeeSearch, Model model){
+        AjaxEmployeeSearchResponseBody result = new AjaxEmployeeSearchResponseBody();
+        boolean isExists  = empService.isProofIdExists(ajaxEmployeeSearch.getProofId());
+        result.setExists(isExists);
+        return result;
+
+    }
+
+    @RequestMapping(value = "/loanReqApproval", method = RequestMethod.POST)
+    public String proceedLoan(Model model, @RequestParam("proofType")String proofType,
+                              @RequestParam("proofId")String proofId
+
+                              ){
+
+
+        Employee employee = empService.getEmployeeById(proofType, proofId);
+        int index = employee.getLoanAgreements().size()-1;
+        LoanAgreement loanAgreement = employee.getLoanAgreements().get(index);
+        LoanProduct loanProduct = loanAgreement.getLoanProduct();
+        loanProduct.setStatus("Approved");
+        loanAgreement.setLoanStatus("Approved");
+        loanAgreement.setLoanDisbursalDate(new Date());
+
+        empService.mergeEmployeeRecord(employee);
+
+        model.addAttribute("css", "success");
+        model.addAttribute("head", "Success! ");
+        model.addAttribute("msg", "Loan Approved!");
+        return "index";
+
+
+    }
+
+    @RequestMapping(value="/loanReq", method=RequestMethod.POST)
+    public String loanApproval(Model model, @RequestParam("proofId")String proofId,
+                               @RequestParam("proofType") String proofType,
+                               @RequestParam("loanProduct")String loanProduct,
+                               @RequestParam("roi")double rate,
+                               @RequestParam("tenure")double tenure,
+                               @RequestParam("repayFrequency") double repayFrequency,
+                               @RequestParam("income") double income,
+                               @RequestParam("expense") double expense,
+                               @RequestParam("loanAmount")double loanAmount){
+
+        Employee employee = empService.getEmployeeById(proofType, proofId);
+        employee.setMonthlyIncome(income);
+        employee.setTotalMonthlyExpenses(expense);
+        double dbr= (expense/income)*100;
+        employee.setDbr(dbr);
+
+
+
+        LoanProduct loanProduct1 = new LoanProduct();
+        loanProduct1.setTenure(tenure);
+        loanProduct1.setRoi(rate);
+        if(loanProduct.equals("H")){
+            loanProduct1.setLoanProductCode("HL001");
+            loanProduct1.setLoanProductName("Home Loan");
+            model.addAttribute("loanProduct", "Home Loan");
+
+
+        }
+        else if(loanProduct.equals("E")){
+            loanProduct1.setLoanProductCode("EDL001");
+            loanProduct1.setLoanProductName("Education Loan");
+            model.addAttribute("loanProduct", "Education Loan");
+
+        }else{
+            loanProduct1.setLoanProductCode("CVL001");
+            loanProduct1.setLoanProductCode("Consumer Vehicle Loan");
+            model.addAttribute("loanProduct", "Consumer Vehicle Loan");
+        }
+
+        loanProduct1.setStatus("Pending");
+
+        LoanAgreement loanAgreement = new LoanAgreement();
+
+
+        loanAgreement.setLoanProduct(loanProduct1);
+        loanAgreement.setLoanAmount(loanAmount);
+        loanAgreement.setRepaymentFrequency(repayFrequency);
+        loanAgreement.setTenure(tenure);
+        loanAgreement.setRate(rate);
+        loanAgreement.setLoanStatus("Pending");
+        loanAgreement.setEmployee(employee);
+
+        loanAgreement.calculateEMI();
+        loanAgreement.generateRS();
+
+        employee.getLoanAgreements().add(loanAgreement);
+        empService.mergeEmployeeRecord(employee);
+        int index = empService.getEmployeeById(proofType, proofId).getLoanAgreements().size()-1;
+        LoanAgreement loanAgreement1 = employee.getLoanAgreements().get(index);
+
+        System.out.println(loanAgreement1.getLoanAgreementId());
+        model.addAttribute("employee", employee);
+        model.addAttribute("loanAgreement",loanAgreement1 );
+        model.addAttribute("repaySchedule", loanAgreement.getRepaymentSchedule());
+        model.addAttribute("dbr", dbr);
+
+        return "loanApproval";
+
+    }
 
 
 

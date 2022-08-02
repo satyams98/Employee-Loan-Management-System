@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+body {
+	font-family: "DM Sans", sans-serif;
+	line-height: 1.5;
+    background-image:  url("../resources/background.jpg");
+	padding: 0;
+    background-size: 100% 100%;
+
+  /* Position and center the image to scale nicely on all screens */
+  
+  background-repeat: no-repeat;
+  background-size : cover;
+  height: 1320;
+  width: 720;
+  
+ 
+}
+.logo{
+   
+    margin: 0 0 0 20%;
+}
+.logo-text{
+    color:#535bac;
+    margin:0 0 0 5%;
+}
+
+.btn{
+    background-color:#535BAC;
+    margin: 85% 0 0 0;
+}
+.btn:hover{
+    background-color:#4351e5;
+}
+.add-btn{
+    margin: 85% 0 0 25%;
+}
+.toast{
+    width: 350px;
+    height: 50px;
+}

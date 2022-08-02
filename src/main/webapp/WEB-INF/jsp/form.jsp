@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -58,25 +59,66 @@
             }
             .heading {
                 margin: 0 0 10% 42%;
+                color:#535bac;
             }
+            .logo{
+
+                margin: 0 0 0 20%;
+            }
+            .logo-text{
+                color:#535bac;
+                margin:0 0 0 5%;
+            }
+            body{
+            background-image:  url("../resources/formBack.png");
+            background-repeat: no-repeat;
+              background-size : cover;
+              height: 1320;
+              width: 720;
+              }
+              .submit{
+                    background-color:#444B8D;
+              }
+              .submit:hover{
+                      background-color:   #313667;
+              }
+              .reset{
+                background-color:#736E38;
+              }
+              .reset:hover{
+              background-color:#676231;
+              }
+              .cancel{
+                    background-color:#73375A;
+             }
+             .cancel:hover{
+                     background-color:#522841;
+             }
+             .invalid-feedback{
+                    position:absolute;
+                   margin: 10% 0 -7% 0;
+             }
+             .valid-feedback{
+              position:absolute;
+               margin: 10% 0 -7% 0;
+             }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark ">
+<nav class="navbar navbar-dark bg-transparent ">
 
-            <a href="" class="navbar-brand text-white mx-2 order-1 ">
-                <h2 class="d-inline align-middle logo">
-                    <strong>NSEL Employee Interface</strong>
-                </h2>
-            </a>
+    <a href="/" class="navbar-brand text-dark mx-2 order-1  ">
+        <img src="../../resources/R.jpg" alt="" width="45" height="45" class="d-inline-block align-top logo">
+        <h2 class="d-inline align-middle logo-text "><strong>NSEL Employee Interface</strong></h2>
+    </a>
 
-        </nav>
+</nav>
         <c:if test="${not empty msg}">
             <div class="toast align-items-center text-white bg-${css} border-0 " role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute; z-index:9; margin:-1% 0 0 75%">
                 <div class="d-flex">
                     <div class="toast-body">
                         <b>
-                            ${css}</b>
+                            ${head}</b>
                         ${msg}
                     </div>
                     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -91,11 +133,11 @@
 
                 <br>
 
-                <form action="/add" method="POST" class="form row g-3 needs-validation card-form" novalidate modelattribute="employee" autocomplete="off">
+                <form action="/add" method="POST" class="form row g-3 needs-validation card-form" novalidate modelAttribute="employee" autocomplete="off" id="form" >
                     <div class="row">
                         <div class="col-md-5 ">
                         <div class="input">
-                            <input type="text" class="input-field" id="firstName" name="firstName" required/>
+                            <input type="text" class="input-field" id="firstName" name="firstName" value="${employee.firstName}" required/>
                             <label for="firstName" class=" input-label">First name</label>
                             <div class="valid-feedback">
                                 Looks good!
@@ -107,7 +149,7 @@
                         </div>
                         <div class="col-md-5 input">
 
-                            <input type="text" class=" input-field" id="lastName" name="lastName" value="" required/>
+                            <input type="text" class=" input-field" id="lastName" name="lastName" value="${employee.lastName}" required/>
                             <label for="lastName" class=" input-label">Last name</label>
                             <div class="valid-feedback">
                                 Looks good!
@@ -117,12 +159,14 @@
                             </div>
                         </div>
                     </div>
-                    <div></div>
+                    <div>
+                    <br>
+                    </div>
                     <div class="row">
                         <div class="col-md-5">
                         <div class="input">
 
-                            <input type="date" class="input-field" id="dob" name="dob" required/>
+                            <input type="date" class="input-field" id="dob" name="dob" value="<fmt:formatDate type = 'date' value = '${employee.dob}'/>" required/>
                             <label for="dob" class="input-label">Date of Birth</label>
                             <div class="valid-feedback">
                                 Looks good!
@@ -134,20 +178,27 @@
                         </div>
                         <div class="col-md-5 input">
 
-                            <select class="input-field" aria-label="Default select example" id="sex" name="sex"/>
-                            <option value="0">Select..</option>
+                            <select class="input-field " aria-label="Default select example" id="sex" name="sex" value="${employee.sex}" />
+                            <option selected disabled value="">Select..</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Not Specific">Other</option>
                         </select>
+
                         <label for="sex" class="input-label">Sex</label>
+                        <div class="invalid-feedback" >
+                           Please select a valid Sex.
+                      </div>
+
                     </div>
                 </div>
-                <div></div>
+                <div>
+                <br>
+                </div>
                 <div class="row">
                     <div class="col-md-5 ">
                             <div class="input">
-                        <input type="text" class="input-field" id="religion" name="religion" required/>
+                        <input type="text" class="input-field" id="religion" name="religion" value="${employee.religion}" required/>
                         <label for="religion" class="input-label">Religion</label>
                         <div class="valid-feedback">
                             Looks good!
@@ -159,20 +210,25 @@
                     </div>
                     <div class="col-md-5 input">
 
-                        <input type="email" class="input-field" id="email" name="email" required/>
+                        <input type="email" class="input-field" id="email" name="email" value="${employee.email}" required/>
                         <label for="email" class="input-label">Email
                         </label>
+                         <div class="valid-feedback">
+                             Looks good!
+                         </div>
                         <div class="invalid-feedback">
                             Please enter a valid email address.
                         </div>
                     </div>
 
                 </div>
-                <div></div>
+                <div>
+                <br>
+                </div>
                 <div class="row">
                     <div class="col-md-5 input">
 
-                        <select class="input-field" aria-label="Default select example" id="proofType" name="proofType"/>
+                        <select class="input-field" aria-label="Default select example" id="proofType" name="proofType" value="${employee.proofType}" />
                         <option value="0" selected>Select..</option>
                         <option value="Pan Card">Pan Card</option>
                         <option value="Adhaar Card">Adhaar Card</option>
@@ -200,7 +256,7 @@
                                     <div class="col-md-7 ">
                                     <div class="input">
 
-                                        <input type="text" class="input-field" id="currentAdd.street" name="currentAdd.street" required/>
+                                        <input type="text" class="input-field" id="currentAdd.street" name="currentAdd.street" value="${employee.currentAdd.street}" required/>
                                         <label for="currentAdd.street" class="input-label">Street</label>
                                         <div class="invalid-feedback">
                                             Please provide a valid Street.
@@ -210,22 +266,23 @@
                                     </div>
                                     <div class="col-md-4 input">
 
-                                        <input type="text" class="input-field" id="currentAdd.zip" name="currentAdd.zip" required/>
+                                        <input type="text" class="input-field" id="currentAdd.zip" name="currentAdd.zip" value="${employee.currentAdd.zip}" required/>
                                         <label for="currentAdd.zip" class="input-label">Zip</label>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback"  style="margin:0 0 -10% 0">
                                             Please provide a valid zip.
                                         </div>
                                     </div>
                                 </div>
 
+                                <br>
 
                                 <div class="row">
                                     <div class="col-md-3 input">
 
 
-                                        <input type="text" class="input-field" id="currentAdd.city" name="currentAdd.city" required/>
+                                        <input type="text" class="input-field" id="currentAdd.city" name="currentAdd.city" value="${employee.currentAdd.city}" required/>
                                         <label for="currentAdd.city" class="input-label">City</label>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" style="margin:0 0 -14% 0">
                                             Please provide a valid City.
                                         </div>
 
@@ -235,25 +292,26 @@
 
                                     <div class="col-md-4 input">
 
-                                        <input type="text" class="input-field" id="currentAdd.state" name="currentAdd.state" onchange=auto required/>
+                                        <input type="text" class="input-field" id="currentAdd.state" name="currentAdd.state" value="${employee.currentAdd.state}" onchange=auto required/>
                                         <label for="currentAdd.state" class="input-label">State</label>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" style="margin:0 0 -10% 0">
                                             Please select a valid State.
                                         </div>
                                     </div>
                                     <div class="col-md-4 input">
 
 
-                                        <input type="text" class="input-field" id="currentAdd.country" name="currentAdd.country" required/>
+                                        <input type="text" class="input-field" id="currentAdd.country" name="currentAdd.country" value="${employee.currentAdd.country}" required/>
                                         <label for="currentAdd.country" class="input-label">Country</label>
 
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" style="margin:0 0 -10% 0">
                                             Please provide a valid Country.
                                         </div>
                                     </div>
 
                                 </div>
 
+                                <br>
                                 <br>
 
                             </div>
@@ -281,11 +339,11 @@
                                         Same as Current
                                     </label>
                                 </div>
-                                <br>
+
                                 <div class="row">
                                     <div class="col-md-7 input">
 
-                                            <input type="text" class="input-field" id="permanentAdd.street" name="permanentAdd.street" required />
+                                            <input type="text" class="input-field" id="permanentAdd.street" name="permanentAdd.street" value="${employee.permanentAdd.street}" required />
                                              <label for="permanentAdd.street" class="input-label">Street</label>
                                             <div class="invalid-feedback">
                                                 Please provide a valid Street.
@@ -296,36 +354,40 @@
                                     <div class="col-md-4 input">
 
 
-                                            <input type="text" class="input-field" id="permanentAdd.zip" name="permanentAdd.zip" required />
+                                            <input type="text" class="input-field" id="permanentAdd.zip" name="permanentAdd.zip" value="${employee.permanentAdd.zip}"  required />
                                              <label for="permanentAdd.zip" class="input-label">Zip</label>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" style="margin:0 0 -10% 0">
                                                 Please provide a valid Zip.
                                             </div>
 
                                     </div>
+                                    <div> <br></div>
+
+
+
 
                                     <div class="row">
                                         <div class="col-md-3 input">
 
-                                                <input type="text" class="input-field" id="permanentAdd.city" name="permanentAdd.city" required />
+                                                <input type="text" class="input-field" id="permanentAdd.city" name="permanentAdd.city" value="${employee.currentAdd.city}" required />
                                                 <label for="permanentAdd.city" class="input-label">City</label>
-                                                <div class="invalid-feedback">
+                                                <div class="invalid-feedback" style="margin:0 0 -15% 0">
                                                     Please provide a valid City.
                                                 </div>
 
                                         </div>
                                         <div class="col-md-5 input">
 
-                                            <input type="text" class="input-field" id="permanentAdd.state" name="permanentAdd.state" required />
+                                            <input type="text" class="input-field" id="permanentAdd.state" name="permanentAdd.state" value="${employee.permanentAdd.state}" required />
                                             <label for="permanentAdd.state" class="input-label">State</label>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" style="margin:0 -2% -9% 2%">
                                                 Please provide a valid State.
                                             </div>
                                         </div>
                                         <div class="col-md-4 input">
-                                            <input type="text" class="input-field" id="permanentAdd.country" name="permanentAdd.country" required />
+                                            <input type="text" class="input-field" id="permanentAdd.country" name="permanentAdd.country" value="${employee.permanentAdd.country}" required />
                                             <label for="permanentAdd.country" class="input-label">Country</label>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" style="margin:0 0 -10% 0">
                                                 Please provide a valid Country.
                                             </div>
                                         </div>
@@ -333,18 +395,22 @@
                                     </div>
 
                                 </div>
+                                <br>
+                                <br>
                             </div>
                         </div>
 
 
                     </div>
                 </div>
-                <div></div>
+                <div>
+
+                </div>
                 <br>
                 <div class="row">
                     <div class="col-md-5 input">
 
-                        <input type="text" class="input-field" id="mobileNo" name="mobileNo"  required />
+                        <input type="text" class="input-field" id="mobileNo" name="mobileNo" value="${employee.mobileNo}"   required />
                          <label for="mobileNo" class="input-label">Contact No.</label>
                         <div class="invalid-feedback">
                             Please provide a valid Contact No..
@@ -354,28 +420,44 @@
                 </div>
                 <div>
                     <br>
+                    <br>
                 </div>
                 <div class="row">
-                    <div class="com-md-4">
-                        <label for="communication" class="form-label">Communication</label>
-                        <hr style="margin: -2% 25% 0 15%; padding: 0 0 0 10%;">
-                    </div>
-                    <div class="col-md-2"></div>
-                    <div id="comBtn">
-                        <div style="margin:-3% 0 0 70%">
-                            <button type="button" id="plus" class="btn btn-light">
-                                <i class="bi bi-plus-circle-fill fa-lg" style="font-size:24px;background-color: transparent; color: blue;"></i>
-                            </button>
-                        </div>
-                        <div style="margin:-6% 0 0 78%">
-                            <button type="button" id="minus" class="btn btn-light">
-                                <i class="bi bi-dash-circle-fill" style="font-size:24px;background-color: transparent; color: blue; "></i>
-                            </button>
-                        </div>
-                    </div>
-                    <br>
-                    <div id="familyContainer" style=" position: block; margin:1% 40% 0 1.5%; padding-right: 5%; width: 750px;"></div>
-                </div>
+
+                    <div class="col-md-10">
+                    <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingFamily">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFamily" aria-expanded="true" aria-controls="panelsStayOpen-collapseFamily">
+       Family Details
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseFamily" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-headingFamily">
+      <div class="accordion-body">
+      <div class="row">
+       <div id="comBtn">
+                    
+          <button type="button" id="plus" class="btn btn-light">
+              <i class="bi bi-plus-circle-fill fa-lg" style="font-size:24px;background-color: transparent; color: #387350;"></i>
+          </button>
+    
+     
+          <button type="button" id="minus" class="btn btn-light">
+              <i class="bi bi-dash-circle-fill" style="font-size:24px;background-color: transparent; color: #73385B; "></i>
+          </button>
+          </div>
+          </div>
+
+
+             <br>
+                    <div id="familyContainer" ></div>
+              
+      </div>
+  </div>
+      </div>
+    </div>
+  
+                   
+                 
 
                 <div class="col-12">
                     <div class="form-check">
@@ -384,19 +466,19 @@
                         <label class="form-check-label" for="invalidCheck">
                             Agree to terms and conditions
                         </label>
-                        <div class="invalid-feedback">
+                        <div class="invalid-feedback" style="margin:0.8% 0 0 0">
                             You must agree before submitting.
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-7">
                         <br><br>
-                        <button class="btn btn-primary" type="submit">Submit form</button>
+                        <button class="btn btn-primary submit" type="submit">Submit form</button>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-3">
                         <br><br>
-                        <button class="btn btn-secondary" type="reset">Reset</button>
+                        <button class="btn btn-secondary reset" type="reset">Reset</button>
                     </div>
 
 
@@ -406,45 +488,135 @@
                 </div>
             </form>
             <form action="/" method='get'>
-                <div class="col-md-3" style="margin:-7% 0 0 85%;">
-                    <button type="submit" class="btn btn-danger">Cancel</button>
+                <div class="col-md-3" style="margin:-7.2% 0 0 72%;">
+                    <button type="submit" class="btn btn-danger cancel">Cancel</button>
                 </div>
             </form>
         </div>
     </body>
 </html></div><script>
 
-(function () {
-    'use strict'
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+var form = document.getElementById("form")
+form.noValidate = true;
+form.addEventListener('submit', validateForm)
+field = Array.from(form.elements);
+field.forEach(f =>{
+    f.addEventListener('blur', (e)=>{
+        if (!f.checkValidity()) {
 
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms).forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            if (! form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
+        // field is invalid - add class
+       
+        f.classList.add('is-invalid');
+        
 
-            form.classList.add('was-validated')
-        }, false)
+      }else{
+        f.classList.remove('is-invalid');
+        
+      }
+      
     })
-})()
+   
+});
+
+function validateForm(e) {
+    const
+    form = e.target,
+    field = Array.from(form.elements);
+  
+ 
+  field.forEach(i => {
+    i.setCustomValidity('');
+    i.classList.remove('is-invalid');
+   
+  });
+
+  var proofId = document.getElementById("proofId")
+  var contact = document.getElementById("mobileNo")
+
+  if($('#proofId').length && proofId.value.length<10){
+    proofId.setCustomValidity("Id length can not be less than 10!")
+  }
+  if(contact.value.length<10){
+    contact.setCustomValidity("Contact lenth can not be less than 10!")
+  }
+  if (!form.checkValidity()) {
+
+    // form is invalid - cancel submit
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    // apply invalid class
+    field.forEach(i => {
+
+      if (!i.checkValidity()) {
+
+        // field is invalid - add class
+        i.classList.add('is-invalid');
+
+      }
+      else{
+        i.classList.add('is-valid');
+      }
+
+    });
+    document.querySelectorAll( ":invalid" )[1].focus();
+   
+    
+}
+}
+
 var plusClicks = -1;
 
 $("#plus").click(() => {
 
-    if ($("#familyContainer > div").length < 4) {
+
         plusClicks++;
-        name = "familyList[" + plusClicks + "].name";
+        name = "familyList[" + plusClicks + "].name";nameValue='$\{employee.' +name+ '}';
         relation = "familyList[" + plusClicks + "].relation";
         mobile = "familyList[" + plusClicks + "].contactNo";
         adhaar = "familyList[" + plusClicks + "].adhaarNo";
-        newFamily = '<div class="row" style=" border:thin solid #d9d5d4; padding:2% " id = family' + plusClicks + '>' + '                    <div class="row">' + '                        <div class="col-md-5 input">' + '       <input type="text" class="input-field" id=' + '"' + name + '"' + ' name=' + '"' + name + '"' + ' value="" required />' + '                     <label for=' + '"' + name + '"' + ' class="input-label">Name</label>' + '                         <div class="valid-feedback">' + '                                Looks good!' + '                            </div>' + '                        </div>' + '                        <div class="col-md-5 input">' + '                             <select class="input-field" aria-label="Default select example" id =' + '"' + relation + '"' + ' name=' + '"' + relation + '"' + '/>' + '                                <option selected disabled value="0">Select..</option>' + '                                <option value="father">Father</option>' + '                                <option value="mother">Mother</option>' + '                                <option value="sister">Sister</option>' + '                                <option value="brother">Brother</option>' + '                                <option value="son">Son</option>' + '                                <option value="daughter">Daughter</option>' + '                                <option value="spouse">Spouse</option>' + '                            </select>' + '   <label for=' + '"' + relation + '"' + ' class="input-label">Relation</label>' + '                     </div>' + '                    </div>' + '                    <div><br></div>' + '                    <div class="row">' + '                        <div class="col-md-5 input">' + '                                                        <input type="text" class="input-field" id=' + '"' + mobile + '"' + ' name=' + '"' + mobile + '"' + ' required>' + '  <label for=' + '"' + mobile + '"' + ' class="input-label">Contact No.</label>' + '                          <div class="invalid-feedback">' + '                                Please provide a valid Contact No..' + '                            </div>' + '                        </div>' + '                        <div class="col-md-5 input">' + '                           <input type="text" class="input-field" id=' + '"' + adhaar + '"' + ' name=' + '"' + adhaar + '"' + '  required>' + '   <label for=' + '"' + adhaar + '"' + ' class="input-label">Adhaar No.</label>' + '                            <div class="invalid-feedback">' + '                                Please provide a valid Adhaar No..' + '                            </div>' + '                        </div>' + '                    </div>' + '                    <div><br></div>' + '                </div>';
+        newFamily = '<div class="row"  id = family' + plusClicks + '>' + '     <div class="row">' +
+                                                                                                                             ' <div class="col-md-3 input">' +
+                                                                                                                             ' <input type="text" class="input-field" id=' + '"' + name + '"' + ' name=' + '"' + name + '"' + ' required />' +
+                                                                                                                              '<label for=' + '"' + name + '"' + ' class="input-label">Name</label>' +
+                                                                                                                              '<div class="valid-feedback" style="margin: 10% -2% -18% 0">' + ' Looks good!' +
+                                                                                                                              '</div>' +
+                                                                                                                              '<div class="invalid-feedback" style="margin: 10% -2% -18% 0">' +
+                                                                                                                              'Please provide valid name' +
+                                                                                                                              '</div>' +
+                                                                                                                              '</div>' +
+                                                                                                                              '<div class="col-md-3 input">' +
+                                                                                                                              '<select class="input-field" aria-label="Default select example" id =' + '"' + relation + '"' + ' name=' + '"' + relation + '"' + '/>' +
+                                                                                                                              '<option selected disabled value="0">Select..</option>' +
+                                                                                                                              '<option value="father">Father</option>' +
+                                                                                                                              '<option value="mother">Mother</option>' +
+                                                                                                                              '<option value="sister">Sister</option>' +
+                                                                                                                              '<option value="brother">Brother</option>' +
+                                                                                                                              '<option value="son">Son</option>' +
+                                                                                                                              '<option value="daughter">Daughter</option>' +
+                                                                                                                              '<option value="spouse">Spouse</option>' +
+                                                                                                                              '</select>' + '   <label for=' + '"' + relation + '"' + ' class="input-label">Relation</label>' +
+                                                                                                                              '</div>' +
+                                                                                                                              '<div class="col-md-3 input">' +
+                                                                                                                              '<input type="text" class="input-field" id=' + '"' + mobile + '"' + ' name=' + '"' + mobile + '"' + ' required>' +
+                                                                                                                              '<label for=' + '"' + mobile + '"' + ' class="input-label">Contact No.</label>' +
+                                                                                                                              '<div class="invalid-feedback" style="margin: 10% 0 -25% 0">' +
+                                                                                                                              'Please provide a valid Contact No..' +
+                                                                                                                              '</div>' +
+                                                                                                                              '</div>' +
+                                                                                                                              '<div class="col-md-3 input">' +
+                                                                                                                              '<input type="text" class="input-field" id=' + '"' + adhaar + '"' + ' name=' + '"' + adhaar + '"' + '  required>' +
+                                                                                                                              '<label for=' + '"' + adhaar + '"' + ' class="input-label">Adhaar No.</label>' +
+                                                                                                                              '<div class="invalid-feedback" style="margin: 10% 0 -25% 0">' +
+                                                                                                                              'Please provide a valid Adhaar No..' +
+                                                                                                                              '</div>' +
+                                                                                                                              '</div>' +
+                                                                                                                              '</div>' +
+                                                                                                                              '<div><br><br></div>'
+
         $('#familyContainer').append(newFamily);
-    }
+
 });
 
 $("#minus").click(() => {
@@ -464,18 +636,17 @@ $('#comBtn').click(() => {
     } else {
         $('#minus').show();
     }
-    if (plusClicks >= 3) {
-        $('#plus').hide();
-    } else {
-        $('#plus').show();
-    }
+
 });
 
 $(document).ready(function () {
     $('.toast').toast('show');
     $('#minus').hide();
+    $('#plus').click();
 
 });
+
+
 
 $("#proofType").click(function () {
 
@@ -483,19 +654,19 @@ $("#proofType").click(function () {
     var e = $(this).val();
 
     if (e == "Pan Card") {
-        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId"  required />' + ' <label for="proofId" class="input-label">Pan Card No. </label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
+        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId" value="${employee.proofId}" required />' + ' <label for="proofId" class="input-label">Pan Card No. </label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
 
         $("#renderProof").empty();
         $("#renderProof").append(newRowAdd);
     }
     if (e == "Adhaar Card") {
-        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId"  required />' + ' <label for="proofId" class="input-label"> Adhaar Card No.</label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
+        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId" value="${employee.proofId}"  required />' + ' <label for="proofId" class="input-label"> Adhaar Card No.</label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
         $("#renderProof").empty();
         $("#renderProof").append(newRowAdd);
     }
 
     if (e == "Passport") {
-        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId"  required />' + ' <label for="proofId" class="input-label">Passport No. </label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
+        newRowAdd = ' <div class="col input" id ="rendered">' + ' <input type="text" class="input-field" id="proofId" name="proofId" value="${employee.proofId}"  required />' + ' <label for="proofId" class="input-label">Passport No. </label>' + ' <div class="invalid-feedback">' + ' Please provide a valid Id.' + ' </div>' + ' </div>' + '<div></div>';
         $("#renderProof").empty();
         $("#renderProof").append(newRowAdd);
     }
@@ -571,9 +742,9 @@ function autocomplete(inp, arr) {
 
     inp.addEventListener("keydown", function (e) {
         var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) 
+        if (x)
             x = x.getElementsByTagName("div");
-        
+
         if (e.keyCode == 40) {
 
             currentFocus++;
@@ -589,24 +760,24 @@ function autocomplete(inp, arr) {
             e.preventDefault();
             if (currentFocus > -1) {
 
-                if (x) 
+                if (x)
                     x[currentFocus].click();
-                
+
             }
         }
     });
     function addActive(x) { /*a function to classify an item as "active":*/
-        if (! x) 
+        if (! x)
             return false;
-        
+
         /*start by removing the "active" class on all items:*/
         removeActive(x);
-        if (currentFocus >= x.length) 
+        if (currentFocus >= x.length)
             currentFocus = 0;
-        
-        if (currentFocus < 0) 
+
+        if (currentFocus < 0)
             currentFocus = (x.length - 1);
-        
+
         /*add class "autocomplete-active":*/
         x[currentFocus].classList.add("autocomplete-active");
     }
@@ -902,4 +1073,3 @@ autocomplete(document.getElementById("currentAdd.state"), state);
 </script>
 </body>
 </html>
-

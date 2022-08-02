@@ -28,4 +28,24 @@ public class EmpService {
     public boolean isProofIdExists(String proofId){
         return dao.isProofIdExists(proofId);
     }
+    public Employee getEmployeeById(String proofType, String proofId){
+        return dao.getEmployeeUsingProof(proofType, proofId);
+    }
+
+    public boolean updateEmployee(Employee employee){
+        return dao.updateEmployee(employee);
+    }
+
+    public boolean updateEmployeeRecord(Employee employee){
+
+        return dao.updateEmployeeRecord(employee);
+    }
+
+    public boolean deleteEmployee(String email){
+        return dao.deleteRecord(email);
+    }
+
+    public boolean mergeEmployeeRecord(Employee employee){
+        return dao.mergeEmployeeRecord(employee);
+    }
 }

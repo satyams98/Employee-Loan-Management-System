@@ -7,9 +7,11 @@
 body {
 	font-family: "DM Sans", sans-serif;
 	line-height: 1.5;
-	background-color: #f1f3fb;
+	
 	padding: 0;
 }
+
+
 
 img {
 	max-width: 100%;
@@ -103,6 +105,8 @@ input {
 	color: #6658d3;
 	transform: translateY(-1.5rem);
 }
+
+
 
 .action {
 	margin-top: 2rem;
