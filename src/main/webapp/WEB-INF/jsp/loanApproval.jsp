@@ -186,6 +186,20 @@
     </div>
     <div class="tab-pane fade" id="profile">
          <br>
+                  <div class="row">
+                    <div class="col-md-3">
+                        <label for="loanAgreementId" class="form-label">Loan Agreement Id</label>
+                        <input type="text" class="form-control" id="loanAgreementId" name="loanAgreementId" value='<fmt:formatNumber value="${loanAgreement.loanAgreementId}" pattern="#.00"/>'   readonly/>
+                        
+                    </div>
+                    <div class="col-md-3">
+                    <label for="repayFrequency" class="form-label">Status</label>
+                    <input type="text" class="form-control" id="repayFrequency" name="repayFrequency" value="${loanAgreement.loanStatus}"   readonly />
+                       
+                    </div>
+
+                </div>
+                 <br>
                 <div class="row">
                     <div class="col-md-3">
                         <label for="dbr" class="form-label">DBR</label>
@@ -272,9 +286,9 @@
         </form>
         </div>
         <div class="col-md-3">
-        <form action="/" method="GET">
-            <button class="btn btn-primary cancel" type="button">Cancel Loan</button>
-        </form>
+       
+            <a href="/" class="btn btn-primary cancel" type="button">Cancel Loan</a>
+        
         </div>
     </div>
     <br>

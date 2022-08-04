@@ -28,7 +28,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return resolver;
     }
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("main/webapp/resources/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("main/webapp/resources/"
+                , "main/webapp/resources/login");
+
     }
 
 }

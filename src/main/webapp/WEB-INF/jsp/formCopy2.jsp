@@ -578,7 +578,7 @@ $("#plus").click(() => {
         adhaar = "familyList[" + plusClicks + "].adhaarNo";
         newFamily = '<div class="row"  id = family' + plusClicks + '>' + '     <div class="row">' +
                                                                                                                              ' <div class="col-md-3 input">' +
-                                                                                                                             ' <input type="text" class="input-field" id=' + '"' + name + '"' + ' name=' + '"' + name + '"' + ' value='+'"${employee."'+ required />' +
+                                                                                                                             ' <input type="text" class="input-field" id=' + '"' + name + '"' + ' name=' + '"' + name + '"' + ' value='+'"'+nameValue+'"' +' required />' +
                                                                                                                               '<label for=' + '"' + name + '"' + ' class="input-label">Name</label>' +
                                                                                                                               '<div class="valid-feedback" style="margin: 10% -2% -18% 0">' + ' Looks good!' +
                                                                                                                               '</div>' +

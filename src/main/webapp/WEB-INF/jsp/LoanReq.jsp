@@ -12,6 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+        
          <link rel="stylesheet" href="../../resources/form.css">
     </head>
 <style>
@@ -340,9 +341,35 @@
                 </div>
                 </div>
 
+<!-- Button trigger modal -->
+<div style="visibility:hidden">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="empNotFound">
+  Launch
+</button>
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Alert!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Employee Not Found! Please Register First!
+      </div>
+      <div class="modal-footer">
+       
+        <a type="button" href="/add" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
+           
 </body>
 <script>
+
 $("#proofType").click(function () {
 
 
@@ -435,6 +462,10 @@ if($("#dbr").val()>40){
     data['msg'] = 'DBR can not be greater than 40!'
     element = document.getElementById("dbr");
     formToast(data, element);
+}
+var empExist = onProofIdChange;
+if(!empExist){
+     proofId.setCustomValidity("Id length can not be less than 10!");
 }
 
 
@@ -572,6 +603,7 @@ function onProofIdChange(){
 
     var proofId = document.getElementById("proofId");
     var proofType = document.getElementById("proofType");
+    var empExist= false;
 
 if(proofId){
 
@@ -596,6 +628,7 @@ if(proofId){
 			success : function(data) {
 				console.log("SUCCESS: ", data);
 				displayToast(data);
+                empExist=data["isExists"]
                 
 			},
 			error : function(e) {
@@ -612,6 +645,7 @@ if(proofId){
 		});
     }
 }
+return empExist;
 }
 function showToast(data){
     var css=data["css"]
@@ -652,6 +686,7 @@ function displayToast(data){
         proofId = document.getElementById("proofId")
         proofId.classList.add('is-invalid')
         proofId.focus();
+        $("#empNotFound").click();
     }
   
     showToast(data)

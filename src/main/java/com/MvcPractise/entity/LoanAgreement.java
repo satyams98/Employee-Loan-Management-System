@@ -40,7 +40,7 @@ public class LoanAgreement {
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Cascade({org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.ALL})
     private List<EMI> repaymentSchedule=new ArrayList<>();
 

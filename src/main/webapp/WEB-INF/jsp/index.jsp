@@ -17,27 +17,38 @@
      <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
      <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 
-    
+    <style>
+    .btn-primary{
+      width:200px;
+    }
+    </style>
 </head>
 <body>
 
-
+<%-- 
 <nav class="navbar navbar-dark bg-transparent ">
-
+  <div class="d-flex justify-content-between">
     <a href="/" class="navbar-brand text-dark mx-2 order-1  ">
-        <img src="../../resources/R.jpg" alt="" width="45" height="45" class="d-inline-block align-top logo">
+      
         <h2 class="d-inline align-middle logo-text "><strong>NSEL Employee Interface</strong></h2>
-        <div style="position:absolute;  margin:-7% 0 0 85%">
+         </a>
         <form action="/logout" method="GET">
         <button class="btn btn-danger">Log Out</button>
         </form>
-        </div>
+    </div>
 
-    </a>
+  
 
-
-
+</nav> --%>
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-transparent">
+  <a class="navbar-brand" href="/">
+     <img src="../../resources/R.jpg" alt="" width="45" height="45" class="d-inline-block align-top logo">
+   <span style="font-size:30px"> NSEL Employee Interface</span>
+  </a>
+  <a style="text-decoration:none; padding:1rem; background-color:#bc3545; margin-right:2rem;color:white;" href="/logout" class="">Log Out</a>
 </nav>
+ 
 <c:if test="${not empty msg}">
    <div class="toast align-items-center text-white bg-${css} border-0 " role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute; z-index:9; margin:-1% 0 0 75%">
     <div class="d-flex">
@@ -53,7 +64,10 @@
 
 <div class="container" style="position:absolute">
 
-<div class="row" style="height:50px;position:relative;margin:0% 0 0 5%">
+<div id="empManagement">
+<h4 style="margin: 10% 0 0 6%">Employee Management<h4>
+<div class="row" style="height:50px;position:relative;margin:-14% 0 0 5%">
+
 <div class="col" style="height:50px; width:30px">
 <form action = "/add" method="GET" >
 <button type = "submit" class="btn btn-primary" >Add Employee</button>
@@ -85,14 +99,26 @@
 </form>
 </div>
 </div>
-<div  style="height:50px;width:25px;margin:19% 0 0 6%">
+</div>
+<div id="loanManagement">
+
+<h4 style="margin: 18% 0 0 6%">Loan Management<h4>
+
+<div  style="height:50px;width:25px;margin:0% 0 0 6%">
 
     <form action="/loanReq" method="GET">
     <button type = "submit" class="btn btn-primary" >Loan Request</button>
     </form>
 
 </div>
+<div  style="height:50px;width:25px;margin:-3.85% 0 0 27.2%">
 
+    <form action="/searchLoan" method="GET">
+    <button type = "submit" class="btn btn-primary" >Loan Details</button>
+    </form>
+
+</div>
+</div>
 
 </body>
 <script>

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @ComponentScan("com.MvcPractise")
@@ -23,15 +24,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http    .csrf().disable()
+        http.csrf()
+                .disable()
                 .authorizeRequests()
-                .anyRequest().hasRole("ADMIN")
-                .and().formLogin().and()
-                .httpBasic()
+                .antMatchers( "/resources**").permitAll()
+                .anyRequest()
+                .hasAnyRole("USER", "ADMIN")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/performlogin")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true")
+                .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
+                .deleteCookies("JSESSIONID")
+                .permitAll();
 
-                .logoutSuccessUrl("/")
-        ;
+
     }
 }

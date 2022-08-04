@@ -39,10 +39,16 @@ public class AppController {
     @Autowired
     private DAO dao;
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(){
+        return "login";
+    }
+
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String showHome(Model model){
         return "index";
     }
+
 
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
@@ -319,6 +325,41 @@ public class AppController {
 
         return "loanApproval";
 
+    }
+
+    @RequestMapping(value = "/searchLoan", method = RequestMethod.GET)
+    public String searchLoan(Model model){
+        return "searchLoan";
+    }
+
+    @RequestMapping(value = "/searchLoan", method = RequestMethod.POST)
+    public String SearchLoanRes(Model model, @RequestParam("proofType")String proofType,
+                                @RequestParam("proofId") String proofId,
+                                @RequestParam("loanAgreementId")long loanAgreementId){
+
+        Employee employee = empService.getEmployeeById(proofType, proofId);
+        if(employee==null){
+            model.addAttribute("css", "danger");
+            model.addAttribute("msg", "Employee not found!");
+            model.addAttribute("head", "Alert!");
+            return "searchLoan";
+        }
+        LoanAgreement loanAgreement = loanService.getLoanAgreement(loanAgreementId);
+        if(loanAgreement==null){
+            model.addAttribute("css", "danger");
+            model.addAttribute("msg", "Loan Record against given loan record not found!");
+            model.addAttribute("head", "Alert!");
+            return "searchLoan";
+        }
+        System.out.println(loanAgreement.getRepaymentSchedule().get(0));
+        model.addAttribute("employee", employee);
+        model.addAttribute("loanAgreement",loanAgreement );
+        model.addAttribute("repaySchedule", loanAgreement.getRepaymentSchedule());
+        model.addAttribute("dbr", employee.getDbr());
+
+
+
+        return "searchLoanRes";
     }
 
 
